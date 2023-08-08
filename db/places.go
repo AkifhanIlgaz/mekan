@@ -79,7 +79,13 @@ func AddPlace(place Place) error {
 		return b.Put(key, value)
 	})
 
-	panic("Implement add place")
+}
+
+// TODO: Delete place by id
+func DeletePlace(id int) error {
+	return db.Update(func(tx *bolt.Tx) error {
+		return nil
+	})
 }
 
 func itob(v int) []byte {
