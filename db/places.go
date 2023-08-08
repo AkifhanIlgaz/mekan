@@ -81,7 +81,6 @@ func AddPlace(place Place) error {
 
 }
 
-// TODO: Delete place by id
 func DeletePlace(id int) error {
 	return db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket(placeBucket)
@@ -90,14 +89,22 @@ func DeletePlace(id int) error {
 	})
 }
 
+func FilterByType(placeType string) []Place {
+	var filteredPlaces []Place
+
+	for _, place := range AllPlaces() {
+		if place.Type == placeType {
+			filteredPlaces = append(filteredPlaces, place)
+		}
+	}
+
+	return filteredPlaces
+}
+
 func itob(v int) []byte {
 	b := make([]byte, 8)
 	binary.BigEndian.PutUint64(b, uint64(v))
 	return b
-}
-
-func btoi(b []byte) int {
-	return int(binary.BigEndian.Uint64(b))
 }
 
 func serialize(v any) ([]byte, error) {
