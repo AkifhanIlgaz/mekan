@@ -1,14 +1,14 @@
 # Mekan
-CLI App to select when you cannot decide which place to go
+CLI App to select when you cannot decide which place to go.
 
 ## How to install
-Clone this repository
+Clone this repository.
 
 ```bash
 git clone https://github.com/AkifhanIlgaz/mekan.git
 ```
 
-Install binary
+Install binary.
 
 ```bash
 go install
