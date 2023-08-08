@@ -11,9 +11,6 @@ import (
 
 var placeBucket = []byte("places")
 
-// Don't select same place within the time period.
-// ? What if user didn't add enough place to select different place for each day
-var timePeriod = 5 * (24 * time.Hour)
 var db *bolt.DB
 
 // TODO: Add point logic
@@ -89,16 +86,21 @@ func DeletePlace(id int) error {
 	})
 }
 
-func FilterByType(placeType string) []Place {
-	var filteredPlaces []Place
+func UpdateLast(id int) error {
+	return db.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket(placeBucket)
+		key := itob(id)
 
-	for _, place := range AllPlaces() {
-		if place.Type == placeType {
-			filteredPlaces = append(filteredPlaces, place)
+		place := deserializePlace(b.Get(key))
+		place.Last = time.Now()
+
+		value, err := serialize(place)
+		if err != nil {
+			return fmt.Errorf("update last: %w", err)
 		}
-	}
 
-	return filteredPlaces
+		return b.Put(key, value)
+	})
 }
 
 func itob(v int) []byte {

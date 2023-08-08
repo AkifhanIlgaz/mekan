@@ -16,12 +16,18 @@ var deleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete place",
 	Run: func(cmd *cobra.Command, args []string) {
-		id, err := strconv.Atoi(args[0])
-		if err != nil {
-			fmt.Println("Please enter valid id")
-			return
+		for _, arg := range args {
+			id, err := strconv.Atoi(arg)
+			if err != nil {
+				fmt.Println("Please enter valid id")
+				return
+			}
+			err = db.DeletePlace(id)
+			if err != nil {
+				fmt.Println("Cannot delete place: ", err)
+				return
+			}
 		}
-		db.DeletePlace(id)
 	},
 }
 

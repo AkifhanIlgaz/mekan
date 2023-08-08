@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/AkifhanIlgaz/mekan/db"
 	"github.com/spf13/cobra"
@@ -37,6 +38,7 @@ func getPlaceInfo() db.Place {
 	return db.Place{
 		Name: getName(),
 		Type: getType(),
+		Last: time.Now(),
 	}
 }
 
@@ -51,7 +53,7 @@ func getName() string {
 	}
 
 	name = strings.TrimSpace(name)
-	name = strings.ToTitle(name)
+	name = strings.ToLower(name)
 
 	return name
 }
@@ -67,7 +69,7 @@ func getType() string {
 	}
 
 	placeType = strings.TrimSpace(placeType)
-	placeType = strings.ToTitle(placeType)
+	placeType = strings.ToLower(placeType)
 
 	return placeType
 }
