@@ -4,8 +4,10 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"bufio"
 	"fmt"
-	"time"
+	"os"
+	"strings"
 
 	"github.com/AkifhanIlgaz/mekan/db"
 	"github.com/spf13/cobra"
@@ -17,32 +19,55 @@ var addCmd = &cobra.Command{
 	Short: "Add new place",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: Take the values of place by flags
-		place := db.Place{
-			Name: args[0],
-			Type: args[1],
-			Last: time.Now(),
-		}
-
+		place := getPlaceInfo()
 		err := db.AddPlace(place)
 		if err != nil {
 			fmt.Println(err)
 		}
-
-		fmt.Println("added to db")
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(addCmd)
+}
 
-	// Here you will define your flags and configuration settings.
+var scanner = bufio.NewScanner(os.Stdin)
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// addCmd.PersistentFlags().String("foo", "", "A help for foo")
+func getPlaceInfo() db.Place {
+	return db.Place{
+		Name: getName(),
+		Type: getType(),
+	}
+}
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+func getName() string {
+	fmt.Print("> Name: ")
+	scanner.Scan()
+
+	name := scanner.Text()
+	if name == "" {
+		fmt.Println("Please enter a name")
+		return getName()
+	}
+
+	name = strings.TrimSpace(name)
+	name = strings.ToTitle(name)
+
+	return name
+}
+
+func getType() string {
+	fmt.Print("> Type: ")
+	scanner.Scan()
+
+	placeType := scanner.Text()
+	if placeType == "" {
+		fmt.Println("Please enter a placeType")
+		return getType()
+	}
+
+	placeType = strings.TrimSpace(placeType)
+	placeType = strings.ToTitle(placeType)
+
+	return placeType
 }
