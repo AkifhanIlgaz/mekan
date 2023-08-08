@@ -84,7 +84,9 @@ func AddPlace(place Place) error {
 // TODO: Delete place by id
 func DeletePlace(id int) error {
 	return db.Update(func(tx *bolt.Tx) error {
-		return nil
+		b := tx.Bucket(placeBucket)
+		key := itob(id)
+		return b.Delete(key)
 	})
 }
 
