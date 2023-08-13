@@ -14,8 +14,6 @@ Install binary.
 go install
 ```
 
-After this step, you should be able to use the app.Type this command to your terminal to make sure everything is okay.
-
 ```bash
 mekan -h
 ```
