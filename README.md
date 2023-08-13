@@ -1,7 +1,9 @@
 # Mekan
+
 CLI App to select when you cannot decide which place to go.
 
 ## How to install
+
 Clone this repository.
 
 ```bash
@@ -17,3 +19,5 @@ go install
 ```bash
 mekan -h
 ```
+
+![help](https://github.com/AkifhanIlgaz/mekan/blob/main/img/mekan.JPG)
